@@ -13,16 +13,18 @@ El proyecto demuestra conceptos avanzados de POO incluyendo:
 
 ## Fases del Proyecto
 
-### Fase 1 (Actual) - Consola + Memoria
+### Fase 1 (Completada) ✅
 - Interfaz de usuario por consola
 - Almacenamiento en memoria (HashMap)
 - Sistema completamente funcional
 
-### Fase 2 (Próxima)
+### Fase 2 (Actual) ✅
 - Interfaz de usuario por terminal
-- Persistencia en archivos de texto
+- Persistencia en archivos de texto CSV
+- Codificación UTF-8
+- Sincronización automática con archivos
 
-### Fase 3 (Final)
+### Fase 3 (Próxima)
 - Interfaz gráfica (Swing/JavaFX)
 - Persistencia en archivos de texto
 
@@ -51,13 +53,24 @@ Vehiculo (abstracta)
 - `Ticket` - Implementa Calculable e Imprimible
 
 ### Capa de Persistencia (`com.upc.persistencia`)
-Clases DAO (Data Access Object) para manejo de datos.
+Clases DAO (Data Access Object) para manejo de datos y serializadores CSV.
 
-- `VehiculoDAO` - CRUD de vehículos
-- `PasajeroDAO` - CRUD de pasajeros
-- `TicketDAO` - CRUD de tickets
+**DAOs:**
+- `VehiculoDAO` - CRUD de vehículos (Singleton)
+- `PasajeroDAO` - CRUD de pasajeros (Singleton)
+- `TicketDAO` - CRUD de tickets (Singleton)
 
-**Patrón Singleton:** Todos los DAOs implementan el patrón Singleton para garantizar una única instancia.
+**Serializadores:**
+- `SerializadorVehiculo` - Convierte Vehiculo ↔ CSV
+- `SerializadorPasajero` - Convierte Pasajero ↔ CSV
+- `SerializadorTicket` - Convierte Ticket ↔ CSV
+
+**Características Fase 2:**
+- Persistencia automática en archivos CSV (carpeta `data/`)
+- Codificación UTF-8 para caracteres especiales
+- Sincronización automática en cada operación CRUD
+- Carga automática al inicializar el sistema
+- Manejo robusto de excepciones
 
 ### Capa de Lógica (`com.upc.logica`)
 Contiene la lógica de negocio del sistema.
@@ -180,7 +193,10 @@ Barceloneta/
 │   │   │           ├── persistencia/
 │   │   │           │   ├── VehiculoDAO.java
 │   │   │           │   ├── PasajeroDAO.java
-│   │   │           │   └── TicketDAO.java
+│   │   │           │   ├── TicketDAO.java
+│   │   │           │   ├── SerializadorVehiculo.java (Fase 2)
+│   │   │           │   ├── SerializadorPasajero.java (Fase 2)
+│   │   │           │   └── SerializadorTicket.java (Fase 2)
 │   │   │           ├── logica/
 │   │   │           │   └── GestorTickets.java
 │   │   │           └── presentacion/
@@ -188,6 +204,10 @@ Barceloneta/
 │   │   └── resources/
 │   └── test/
 │       └── java/
+├── data/ (Fase 2)
+│   ├── vehiculos.txt
+│   ├── pasajeros.txt
+│   └── tickets.txt
 ├── pom.xml
 ├── .gitignore
 └── README.md
@@ -306,7 +326,41 @@ Programación Orientada a Objetos II
 
 ## Versión
 
-**1.0-FASE1** - Sistema funcional por consola con almacenamiento en memoria
+**1.0-FASE2** - Sistema funcional por terminal con persistencia en archivos CSV
+
+## Novedades de la Fase 2
+
+### Persistencia en Archivos CSV
+Los datos ahora se almacenan permanentemente en archivos de texto con formato CSV:
+
+- **`data/vehiculos.txt`** - Almacena todos los vehículos registrados
+  - Formato: `TipoVehiculo,placa,capacidad,modelo,tarifaBase`
+  - Ejemplo: `Buseta,ABC123,19,2024,2500.0`
+
+- **`data/pasajeros.txt`** - Almacena todos los pasajeros registrados
+  - Formato: `cedula,nombre,tipoPasajero`
+  - Ejemplo: `1000000001,Juan Pérez,REGULAR`
+
+- **`data/tickets.txt`** - Almacena todos los tickets vendidos
+  - Formato: `idTicket,placaVehiculo,cedulaPasajero,origen,destino,fecha,distanciaKm`
+  - Ejemplo: `TK-00001,ABC123,1000000002,Valledupar,Barranquilla,2025-11-08T10:30:45,200.0`
+
+### Características Técnicas
+
+- ✅ **Codificación UTF-8**: Soporte completo para caracteres especiales (tildes, ñ, etc.)
+- ✅ **Sincronización Automática**: Los archivos se actualizan automáticamente en cada operación
+- ✅ **Carga Automática**: Los datos se cargan al iniciar el sistema
+- ✅ **Manejo de Errores**: Excepciones claras cuando hay datos corruptos o referencias faltantes
+- ✅ **Integridad Referencial**: Los tickets mantienen referencias válidas a vehículos y pasajeros
+- ✅ **Contador de IDs**: Se mantiene sincronizado con los tickets existentes
+
+### Ventajas de la Fase 2
+
+1. **Persistencia Real**: Los datos no se pierden al cerrar la aplicación
+2. **Portabilidad**: Los archivos CSV se pueden abrir en Excel, LibreOffice, etc.
+3. **Respaldo Fácil**: Basta con copiar la carpeta `data/`
+4. **Debugging Sencillo**: Los archivos son legibles y editables manualmente
+5. **Sin Dependencias**: No requiere bases de datos externas
 
 ## Licencia
 
