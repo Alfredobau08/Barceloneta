@@ -8,14 +8,14 @@
     <!-- Información del Proyecto -->
     <groupId>com.upc</groupId>
     <artifactId>barceloneta</artifactId>
-    <version>1.0-FASE1</version>
+    <version>1.0-FASE2</version>
     <packaging>jar</packaging>
 
     <name>Sistema Barceloneta</name>
     <description>
         Sistema de Gestión de Tickets de Viaje - Proyecto Educativo POO II
         Universidad Popular del Cesar
-        Fase 1: Consola + Almacenamiento en Memoria
+        Fase 2: Terminal + Persistencia en Archivos CSV
     </description>
 
     <!-- Propiedades del Proyecto -->
