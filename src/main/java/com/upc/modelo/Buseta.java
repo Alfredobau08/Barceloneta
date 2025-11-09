@@ -4,10 +4,10 @@ package com.upc.modelo;
  * Clase Buseta
  * Representa un vehículo tipo buseta (16-19 pasajeros).
  *
- * <p>La buseta es el vehículo más pequeño de la flota y aplica la tarifa base
- * sin modificaciones adicionales.</p>
+ * La buseta es el vehículo más pequeño de la flota y aplica la tarifa base
+ * sin modificaciones adicionales.
  *
- * <p><b>Concepto POO demostrado:</b> Herencia y Polimorfismo</p>
+ * Concepto POO demostrado: Herencia y Polimorfismo
  *
  * @author Universidad Popular del Cesar
  * @version 1.0 - Fase 1
@@ -43,7 +43,7 @@ public class Buseta extends Vehiculo {
      * Calcula la tarifa final para una buseta.
      * Implementación del método abstracto de la clase padre.
      *
-     * <p>La buseta aplica la tarifa base sin modificaciones (multiplicador 1.0)</p>
+     * La buseta aplica la tarifa base sin modificaciones (multiplicador 1.0)
      *
      * @param distanciaKm Distancia del viaje en kilómetros
      * @return Tarifa final calculada (tarifaBase * distancia * 1.0)

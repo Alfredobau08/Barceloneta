@@ -8,10 +8,10 @@ import java.util.List;
  * Clase GestorTickets
  * Contiene la lógica de negocio para la gestión de tickets de viaje.
  *
- * <p>Esta clase actúa como fachada (Facade pattern) para coordinar
- * las operaciones entre las capas de modelo y persistencia.</p>
+ * Esta clase actúa como fachada (Facade pattern) para coordinar
+ * las operaciones entre las capas de modelo y persistencia.
  *
- * <p><b>Arquitectura:</b> Capa de Lógica de Negocio</p>
+ * Arquitectura: Capa de Lógica de Negocio
  *
  * @author Universidad Popular del Cesar
  * @version 1.0 - Fase 1

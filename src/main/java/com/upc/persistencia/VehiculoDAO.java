@@ -10,10 +10,10 @@ import java.util.Map;
  * Clase VehiculoDAO (Data Access Object)
  * Maneja la persistencia de vehículos en memoria (Fase 1).
  *
- * <p>Esta clase implementa el patrón DAO para separar la lógica de acceso a datos
- * de la lógica de negocio. En Fase 1 usa HashMap para almacenamiento en memoria.</p>
+ * Esta clase implementa el patrón DAO para separar la lógica de acceso a datos
+ * de la lógica de negocio. En Fase 1 usa HashMap para almacenamiento en memoria.
  *
- * <p><b>Patrón de diseño:</b> Data Access Object (DAO)</p>
+ * Patrón de diseño: Data Access Object (DAO)
  *
  * @author Universidad Popular del Cesar
  * @version 1.0 - Fase 1

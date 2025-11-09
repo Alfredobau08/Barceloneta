@@ -1,18 +1,16 @@
 package com.upc.modelo;
-
 /**
  * Interfaz Calculable
  * Define el contrato para objetos que pueden calcular precios y aplicar descuentos.
  *
- * <p>Esta interfaz es parte del patrón de diseño Strategy, permitiendo diferentes
- * implementaciones de cálculo de precios según el tipo de objeto.</p>
+ * Esta interfaz es parte del patrón de diseño Strategy, permitiendo diferentes
+ * implementaciones de cálculo de precios según el tipo de objeto.
  *
  * @author Universidad Popular del Cesar
  * @version 1.0 - Fase 1
  * @since 2025-10-31
  */
 public interface Calculable {
-
     /**
      * Calcula el precio final del objeto.
      *

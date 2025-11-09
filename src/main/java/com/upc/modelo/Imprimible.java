@@ -4,8 +4,8 @@ package com.upc.modelo;
  * Interfaz Imprimible
  * Define el contrato para objetos que pueden ser impresos o generar recibos.
  *
- * <p>Esta interfaz permite la generación de diferentes representaciones textuales
- * de un objeto, útil para mostrar información al usuario o generar documentos.</p>
+ * Esta interfaz permite la generación de diferentes representaciones textuales
+ * de un objeto, útil para mostrar información al usuario o generar documentos.
  *
  * @author Universidad Popular del Cesar
  * @version 1.0 - Fase 1
