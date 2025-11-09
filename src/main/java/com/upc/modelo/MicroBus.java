@@ -4,10 +4,10 @@ package com.upc.modelo;
  * Clase MicroBus
  * Representa un vehículo tipo microbús (20-30 pasajeros).
  *
- * <p>El microbús es un vehículo de capacidad media que aplica un descuento
- * del 10% sobre la tarifa base debido a su mayor eficiencia.</p>
+ * El microbús es un vehículo de capacidad media que aplica un descuento
+ * del 10% sobre la tarifa base debido a su mayor eficiencia.
  *
- * <p><b>Concepto POO demostrado:</b> Herencia y Polimorfismo</p>
+ * Concepto POO demostrado: Herencia y Polimorfismo
  *
  * @author Universidad Popular del Cesar
  * @version 1.0 - Fase 1
@@ -43,7 +43,7 @@ public class MicroBus extends Vehiculo {
      * Calcula la tarifa final para un microbús.
      * Implementación del método abstracto de la clase padre.
      *
-     * <p>El microbús aplica un descuento del 10% sobre la tarifa base (multiplicador 0.9)</p>
+     * El microbús aplica un descuento del 10% sobre la tarifa base (multiplicador 0.9)
      *
      * @param distanciaKm Distancia del viaje en kilómetros
      * @return Tarifa final calculada (tarifaBase * distancia * 0.9)

@@ -4,8 +4,8 @@ package com.upc.modelo;
  * Enumeración TipoPasajero
  * Define los tipos de pasajeros y sus descuentos asociados.
  *
- * <p>Cada tipo de pasajero tiene un porcentaje de descuento predefinido que se
- * aplica automáticamente al calcular el precio del ticket.</p>
+ * Cada tipo de pasajero tiene un porcentaje de descuento predefinido que se
+ * aplica automáticamente al calcular el precio del ticket.
  *
  * @author Universidad Popular del Cesar
  * @version 1.0 - Fase 1

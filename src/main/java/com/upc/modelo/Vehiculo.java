@@ -4,11 +4,11 @@ package com.upc.modelo;
  * Clase Abstracta Vehiculo
  * Representa un vehículo genérico en el sistema de venta de tickets.
  *
- * <p>Esta clase abstracta define las características comunes de todos los vehículos
+ * Esta clase abstracta define las características comunes de todos los vehículos
  * y establece el contrato para el cálculo de tarifas mediante el método abstracto
- * calcularTarifaFinal().</p>
+ * calcularTarifaFinal().
  *
- * <p><b>Concepto POO demostrado:</b> Herencia y Abstracción</p>
+ * Concepto POO demostrado: Herencia y Abstracción
  *
  * @author Universidad Popular del Cesar
  * @version 1.0 - Fase 1

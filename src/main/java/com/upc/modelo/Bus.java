@@ -4,10 +4,10 @@ package com.upc.modelo;
  * Clase Bus
  * Representa un vehículo tipo bus (más de 30 pasajeros).
  *
- * <p>El bus es el vehículo de mayor capacidad de la flota y aplica un descuento
- * del 20% sobre la tarifa base debido a su alta eficiencia en transporte masivo.</p>
+ * El bus es el vehículo de mayor capacidad de la flota y aplica un descuento
+ * del 20% sobre la tarifa base debido a su alta eficiencia en transporte masivo.
  *
- * <p><b>Concepto POO demostrado:</b> Herencia y Polimorfismo</p>
+ * Concepto POO demostrado: Herencia y Polimorfismo
  *
  * @author Universidad Popular del Cesar
  * @version 1.0 - Fase 1
@@ -43,7 +43,7 @@ public class Bus extends Vehiculo {
      * Calcula la tarifa final para un bus.
      * Implementación del método abstracto de la clase padre.
      *
-     * <p>El bus aplica un descuento del 20% sobre la tarifa base (multiplicador 0.8)</p>
+     * El bus aplica un descuento del 20% sobre la tarifa base (multiplicador 0.8)
      *
      * @param distanciaKm Distancia del viaje en kilómetros
      * @return Tarifa final calculada (tarifaBase * distancia * 0.8)

@@ -1,6 +1,8 @@
 package com.upc.persistencia;
 
 import com.upc.modelo.Ticket;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,16 +10,19 @@ import java.util.Map;
 
 /**
  * Clase TicketDAO (Data Access Object)
- * Maneja la persistencia de tickets en memoria (Fase 1).
+ * Maneja la persistencia de tickets en archivos de texto (Fase 2).
  *
  * <p>Esta clase implementa el patrón DAO para separar la lógica de acceso a datos
- * de la lógica de negocio. En Fase 1 usa HashMap para almacenamiento en memoria.</p>
+ * de la lógica de negocio. En Fase 2 usa archivos CSV con codificación UTF-8.</p>
  *
- * <p><b>Patrón de diseño:</b> Data Access Object (DAO)</p>
+ * <p>Los datos se mantienen en memoria (HashMap) para eficiencia y se sincronizan
+ * automáticamente con el archivo de texto en cada operación CRUD.</p>
+ *
+ * <p><b>Patrón de diseño:</b> Data Access Object (DAO) + Singleton</p>
  *
  * @author Universidad Popular del Cesar
- * @version 1.0 - Fase 1
- * @since 2025-10-31
+ * @version 1.0 - Fase 2
+ * @since 2025-11-08
  */
 public class TicketDAO {
 
@@ -37,11 +42,18 @@ public class TicketDAO {
     private static TicketDAO instancia;
 
     /**
-     * Constructor privado para implementar Singleton
+     * Ruta del archivo de persistencia
+     */
+    private static final String ARCHIVO_TICKETS = "data/tickets.txt";
+
+    /**
+     * Constructor privado para implementar Singleton.
+     * Carga automáticamente los datos desde el archivo al inicializar.
      */
     private TicketDAO() {
         this.tickets = new HashMap<>();
         this.contadorId = 1;
+        cargarDesdeArchivo();
     }
 
     /**
@@ -67,9 +79,11 @@ public class TicketDAO {
 
     /**
      * Guarda un ticket en el almacenamiento.
+     * Sincroniza automáticamente con el archivo de persistencia.
      *
      * @param ticket Ticket a guardar
      * @return true si se guardó exitosamente, false si ya existía
+     * @throws RuntimeException si ocurre un error al guardar en el archivo
      */
     public boolean guardar(Ticket ticket) {
         if (ticket == null || ticket.getIdTicket() == null) {
@@ -79,6 +93,7 @@ public class TicketDAO {
             return false; // Ya existe
         }
         tickets.put(ticket.getIdTicket(), ticket);
+        guardarEnArchivo();
         return true;
     }
 
@@ -137,9 +152,11 @@ public class TicketDAO {
 
     /**
      * Actualiza un ticket existente.
+     * Sincroniza automáticamente con el archivo de persistencia.
      *
      * @param ticket Ticket con datos actualizados
      * @return true si se actualizó, false si no existe
+     * @throws RuntimeException si ocurre un error al guardar en el archivo
      */
     public boolean actualizar(Ticket ticket) {
         if (ticket == null || ticket.getIdTicket() == null) {
@@ -149,17 +166,24 @@ public class TicketDAO {
             return false; // No existe
         }
         tickets.put(ticket.getIdTicket(), ticket);
+        guardarEnArchivo();
         return true;
     }
 
     /**
      * Elimina un ticket del almacenamiento.
+     * Sincroniza automáticamente con el archivo de persistencia.
      *
      * @param idTicket ID del ticket a eliminar
      * @return true si se eliminó, false si no existía
+     * @throws RuntimeException si ocurre un error al guardar en el archivo
      */
     public boolean eliminar(String idTicket) {
-        return tickets.remove(idTicket) != null;
+        boolean eliminado = tickets.remove(idTicket) != null;
+        if (eliminado) {
+            guardarEnArchivo();
+        }
+        return eliminado;
     }
 
     /**
@@ -183,10 +207,119 @@ public class TicketDAO {
 
     /**
      * Limpia todos los tickets del almacenamiento y reinicia el contador.
+     * Sincroniza automáticamente con el archivo de persistencia.
      * Útil para pruebas.
+     *
+     * @throws RuntimeException si ocurre un error al guardar en el archivo
      */
     public void limpiar() {
         tickets.clear();
         contadorId = 1;
+        guardarEnArchivo();
+    }
+
+    /**
+     * Carga los tickets desde el archivo de texto.
+     * Este método se ejecuta automáticamente al inicializar el DAO.
+     *
+     * Si el archivo no existe, se crea vacío.
+     * Si el archivo está corrupto, se lanza una excepción.
+     *
+     * @throws RuntimeException si ocurre un error al leer el archivo o si los datos están corruptos
+     */
+    private void cargarDesdeArchivo() {
+        File archivo = new File(ARCHIVO_TICKETS);
+
+        // Si el archivo no existe, crearlo
+        if (!archivo.exists()) {
+            try {
+                archivo.getParentFile().mkdirs();
+                archivo.createNewFile();
+                return;
+            } catch (IOException e) {
+                throw new RuntimeException("Error al crear el archivo de tickets: " + ARCHIVO_TICKETS, e);
+            }
+        }
+
+        // Obtener instancias de los DAOs necesarios para deserialización
+        VehiculoDAO vehiculoDAO = VehiculoDAO.getInstancia();
+        PasajeroDAO pasajeroDAO = PasajeroDAO.getInstancia();
+
+        // Leer el archivo línea por línea
+        try (BufferedReader reader = new BufferedReader(
+                new InputStreamReader(new FileInputStream(archivo), StandardCharsets.UTF_8))) {
+
+            String linea;
+            int numeroLinea = 0;
+            tickets.clear();
+            int maxId = 0;
+
+            while ((linea = reader.readLine()) != null) {
+                numeroLinea++;
+                linea = linea.trim();
+
+                // Saltar líneas vacías
+                if (linea.isEmpty()) {
+                    continue;
+                }
+
+                try {
+                    Ticket ticket = SerializadorTicket.deserializar(linea, vehiculoDAO, pasajeroDAO);
+                    tickets.put(ticket.getIdTicket(), ticket);
+
+                    // Extraer el número del ID para actualizar el contador
+                    String id = ticket.getIdTicket();
+                    if (id.startsWith("TK-")) {
+                        try {
+                            int numeroId = Integer.parseInt(id.substring(3));
+                            if (numeroId > maxId) {
+                                maxId = numeroId;
+                            }
+                        } catch (NumberFormatException e) {
+                            // Si no se puede parsear, ignorar
+                        }
+                    }
+                } catch (IllegalArgumentException e) {
+                    throw new RuntimeException(
+                        "Error al parsear línea " + numeroLinea + " del archivo " + ARCHIVO_TICKETS + ": " + linea, e
+                    );
+                }
+            }
+
+            // Actualizar el contador para que el próximo ID sea único
+            if (maxId > 0) {
+                contadorId = maxId + 1;
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException("Error al leer el archivo de tickets: " + ARCHIVO_TICKETS, e);
+        }
+    }
+
+    /**
+     * Guarda todos los tickets en el archivo de texto.
+     * Este método se ejecuta automáticamente después de cada operación CRUD.
+     *
+     * @throws RuntimeException si ocurre un error al escribir en el archivo
+     */
+    private void guardarEnArchivo() {
+        File archivo = new File(ARCHIVO_TICKETS);
+
+        // Crear directorio si no existe
+        if (!archivo.getParentFile().exists()) {
+            archivo.getParentFile().mkdirs();
+        }
+
+        try (BufferedWriter writer = new BufferedWriter(
+                new OutputStreamWriter(new FileOutputStream(archivo), StandardCharsets.UTF_8))) {
+
+            for (Ticket ticket : tickets.values()) {
+                String lineaCSV = SerializadorTicket.serializar(ticket);
+                writer.write(lineaCSV);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Error al escribir en el archivo de tickets: " + ARCHIVO_TICKETS, e);
+        }
     }
 }

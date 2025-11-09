@@ -4,8 +4,8 @@ package com.upc.modelo;
  * Clase Pasajero
  * Representa un pasajero que compra tickets de viaje.
  *
- * <p>Cada pasajero tiene un tipo asociado (REGULAR, ESTUDIANTE, ADULTO_MAYOR)
- * que determina el descuento aplicable en la compra de tickets.</p>
+ * Cada pasajero tiene un tipo asociado (REGULAR, ESTUDIANTE, ADULTO_MAYOR)
+ * que determina el descuento aplicable en la compra de tickets.
  *
  * @author Universidad Popular del Cesar
  * @version 1.0 - Fase 1

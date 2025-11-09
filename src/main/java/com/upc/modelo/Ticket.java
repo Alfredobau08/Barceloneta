@@ -7,10 +7,10 @@ import java.time.format.DateTimeFormatter;
  * Clase Ticket
  * Representa un ticket de viaje vendido a un pasajero.
  *
- * <p>Esta clase implementa las interfaces Calculable e Imprimible,
- * demostrando el uso de interfaces y polimorfismo.</p>
+ * Esta clase implementa las interfaces Calculable e Imprimible,
+ * demostrando el uso de interfaces y polimorfismo.
  *
- * <p><b>Conceptos POO demostrados:</b> Interfaces, Polimorfismo, Composición</p>
+ * Conceptos POO demostrados: Interfaces, Polimorfismo, Composición
  *
  * @author Universidad Popular del Cesar
  * @version 1.0 - Fase 1
@@ -85,8 +85,8 @@ public class Ticket implements Calculable, Imprimible {
      * Calcula el precio base del ticket sin descuentos.
      * Implementación de la interfaz Calculable.
      *
-     * <p>El precio se calcula usando el método calcularTarifaFinal() del vehículo,
-     * demostrando polimorfismo (diferentes tipos de vehículos calculan diferente).</p>
+     * El precio se calcula usando el método calcularTarifaFinal() del vehículo,
+     * demostrando polimorfismo (diferentes tipos de vehículos calculan diferente).
      *
      * @return Precio base del ticket
      */
